@@ -1,5 +1,6 @@
 package com.example.dataRest.config;
 
+import com.example.dataRest.domain.Category;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +22,7 @@ class DataRestConfiguration {
             @Override
             public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config, CorsRegistry cors) {
                 config.setBasePath(basePath);
+                config.exposeIdsFor(Category.class);
             }
         };
     }
