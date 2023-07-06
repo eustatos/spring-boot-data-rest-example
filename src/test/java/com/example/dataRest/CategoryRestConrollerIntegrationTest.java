@@ -4,6 +4,7 @@ import com.example.dataRest.domain.Category;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -24,11 +25,14 @@ public class CategoryRestConrollerIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @Value("${spring.data.rest.basePath}")
+    private String basePath;
+
     @Test
     public void shouldCreateCategory() throws Exception {
         Category category = new Category("first", "description");
         this.mockMvc.perform(
-                        post("/categories")
+                        post(basePath + "/categories")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(new ObjectMapper().writeValueAsString(category))
                                 .accept(MediaType.APPLICATION_JSON)
@@ -38,7 +42,7 @@ public class CategoryRestConrollerIntegrationTest {
                 .andExpect(status().isCreated());
 
         this.mockMvc.perform(
-                        get("/categories")
+                        get(basePath + "/categories")
                                 .accept(MediaType.APPLICATION_JSON)
                 )
                 .andDo(print())
